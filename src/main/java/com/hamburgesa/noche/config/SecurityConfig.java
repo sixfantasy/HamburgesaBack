@@ -28,17 +28,11 @@ public class SecurityConfig {
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
-    // ✅ CHANGE 1: Define the PasswordEncoder bean
-    // This method creates the BCryptPasswordEncoder bean, making it available
-    // for dependency injection throughout the application.
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    // ✅ CHANGE 2: Define the AuthenticationManager bean correctly
-    // This is the modern way to get the AuthenticationManager bean.
-    // The previous method was more complex and less standard.
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
@@ -51,15 +45,11 @@ public class SecurityConfig {
                 .cors(withDefaults())
                 // Define authorization rules
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/endpointdesprotegido", "/authenticate").permitAll() // Permit access to specific endpoints
+                        .requestMatchers("/auth/login", "/auth/register").permitAll() // Permit access to specific endpoints
                         .anyRequest().authenticated() // All other requests require authentication
                 )
-                // Configure stateless session management, essential for REST APIs with JWT
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // Add the custom JWT filter before the standard username/password authentication filter
-                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-        // httpBasic is not typically needed for a JWT-based API
-        // .httpBasic(withDefaults());
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class).httpBasic(withDefaults());
 
         return http.build();
     }
