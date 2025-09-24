@@ -3,6 +3,7 @@ package com.hamburgesa.noche.controllers;
 import com.hamburgesa.noche.DTO.UserInfo;
 import com.hamburgesa.noche.entities.User;
 import com.hamburgesa.noche.repositories.UserRepository;
+import com.hamburgesa.noche.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @GetMapping
     public List<UserInfo> getAllUsers() {
@@ -31,6 +35,12 @@ public class UserController {
         User user = userRepository.findById(id).orElse(null);
         UserInfo userInfo = new UserInfo(user);
         return userInfo;
+    }
+    @GetMapping("")
+    public User getUserFromToken(@RequestHeader("Authorization") String auth){
+        String token = auth.substring(7);
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        return userRepository.findByUsername(username);
     }
 
     @PutMapping("/update")
