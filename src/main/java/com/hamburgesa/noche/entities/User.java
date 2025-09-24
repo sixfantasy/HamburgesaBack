@@ -2,15 +2,12 @@ package com.hamburgesa.noche.entities;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,6 +36,13 @@ import lombok.Setter;
         private boolean accountNonLocked;
         private boolean credentialsNonExpired;
         private boolean enabled;
+        private int age;
+        private String interests;
+        @OneToMany(mappedBy = "user")
+        private List<UserEvent> events;
+
+
+
 
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
