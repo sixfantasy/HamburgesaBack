@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,6 +40,7 @@ import lombok.Setter;
         private int age;
         private String interests;
         @OneToMany(mappedBy = "user")
+        @JsonIgnore
         private List<UserEvent> events;
 
 

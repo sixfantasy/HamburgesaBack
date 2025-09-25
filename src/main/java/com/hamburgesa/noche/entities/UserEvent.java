@@ -1,5 +1,6 @@
 package com.hamburgesa.noche.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,8 +12,10 @@ public class UserEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @ManyToOne
     private User user;
+    @JsonIgnore
     @ManyToOne
     private Event event;
     private String contribution;

@@ -40,6 +40,7 @@ public class UserEventController {
         String username = jwtTokenUtil.getUsernameFromToken(token);
         User user = userRepository.findByUsername(username);
         UserEvent userEvent = new UserEvent(user, event);
+        System.out.println("userEvent = " + userEvent);
         return userEventRepository.save(userEvent);
     }
     @PutMapping("/assistants")
