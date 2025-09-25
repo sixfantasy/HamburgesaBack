@@ -27,5 +27,14 @@ public class EventController {
     public Event createEvent(@RequestBody Event event) {
         return eventRepository.save(event);
     }
+    @PutMapping("/update")
+    public Event updateEvent(@RequestBody Event event) {
+        return eventRepository.save(event);
+
+    }
+    @DeleteMapping("/delete/{id}")
+    public void deleteEvent(@PathVariable Integer id) {
+        eventRepository.deleteById(id);
+    }
 
 }
