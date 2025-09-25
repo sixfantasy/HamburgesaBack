@@ -47,5 +47,9 @@ public class UserEventController {
     public UserEvent updateAssistantToEvent(@RequestBody UserEvent userEvent) {
         return userEventRepository.save(userEvent);
     }
+    @DeleteMapping("/assistants")
+    public void deleteAssistantToEvent(@RequestBody UserEvent userEvent) {
+        userEventRepository.delete(userEvent);
+    }
 
 }
