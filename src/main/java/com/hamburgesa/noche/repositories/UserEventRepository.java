@@ -15,4 +15,6 @@ public interface UserEventRepository extends JpaRepository<UserEvent, Integer> {
     List<User> findUsersByEvent(Event event);
 
     void deleteAllByUser(User user);
+
+    boolean existsByUserAndEvent(User user, Event event);
 }

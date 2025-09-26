@@ -8,6 +8,7 @@ import com.hamburgesa.noche.repositories.UserEventRepository;
 import com.hamburgesa.noche.repositories.UserRepository;
 import com.hamburgesa.noche.utils.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,13 +36,15 @@ public class UserEventController {
         return userEventRepository.findUsersByEvent(event);
     }
     @PostMapping("/assistants")
-    public UserEvent addAssistantToEvent(@RequestBody Event event, @RequestHeader("Authorization") String auth) {
+    public ResponseEntity<String> addAssistantToEvent(@RequestBody Event event, @RequestHeader("Authorization") String auth) {
         String token =   auth.substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         User user = userRepository.findByUsername(username);
+        if(userEventRepository.existsByUserAndEvent(user, event))
+            return ResponseEntity.badRequest().body("User already exists in event");
         UserEvent userEvent = new UserEvent(user, event);
-        System.out.println("userEvent = " + userEvent);
-        return userEventRepository.save(userEvent);
+            userEventRepository.save(userEvent);
+            return ResponseEntity.ok("User added to event");
     }
     @PutMapping("/assistants")
     public UserEvent updateAssistantToEvent(@RequestBody UserEvent userEvent) {
