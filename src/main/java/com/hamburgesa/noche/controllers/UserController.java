@@ -49,6 +49,7 @@ public class UserController {
 
     @PutMapping("/update")
     public User updateUser(@RequestBody User user) {
+        System.out.println("user = " + user);
         return userRepository.save(user);
 }
     @DeleteMapping("/delete/{id}")

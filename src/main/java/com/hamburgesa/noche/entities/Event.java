@@ -19,6 +19,6 @@ public class Event {
     private Date date;
 
     @OneToMany(mappedBy = "event")
-    private List<UserEvent> assistsants;
+    private List<UserEvent> assistants;
 
 }
