@@ -18,7 +18,7 @@ public class Event {
     private String location;
     private Date date;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserEvent> assistants;
 
 }
